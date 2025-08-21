@@ -15,7 +15,7 @@ export default function loader() {
                                     <div className="h-8 w-24 rounded-lg bg-neutral-200 dark:bg-neutral-800 animate-pulse" />
                                     <div className="h-8 w-16 rounded-lg bg-neutral-200 dark:bg-neutral-800 animate-pulse" />
                               </div>
-                        </div>
+                        </div> 
 
                         {/* Centered spinner + label for small screens */}
                         <div className="mb-8 flex items-center gap-3 sm:hidden">
