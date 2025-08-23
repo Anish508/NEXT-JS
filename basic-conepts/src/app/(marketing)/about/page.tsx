@@ -1,4 +1,4 @@
-function marketingAbtPage(){
+function marketingAbtPage() {
       return (
             <div>marketing page</div>
       )
