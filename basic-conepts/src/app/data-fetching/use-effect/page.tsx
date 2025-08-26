@@ -1,6 +1,6 @@
-import Product from "@/app/product/page";
+"use client";
 
-//cache->reload, no-store, force-cache
+import { useEffect, useState } from "react";
 
 interface Product {
   id: number;
@@ -9,30 +9,37 @@ interface Product {
   category: string;
   description: string;
 }
-interface ProductResponse {
-  products: Product[];
-  total: number;
-}
 
-async function getProducts(): Promise<ProductResponse> {
-  const response = await fetch("https://dummyjson.com/products", {
-    cache: "no-store", //'no-store' :never cache response based on requirement we can use it
-  });
+export default function useEffectExample() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<Product[]>([]);
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch products");
+  async function fetchListOfProducts() {
+    try {
+      setIsLoading(true);
+      const res = await fetch("https://dummyjson.com/products");
+      const result = await res.json();
+
+      if (result?.products) {
+        setData(result.products);
+      }
+    } catch (error) {
+      console.error("Error while fetching", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
-  return response.json();
-}
 
-async function ServerSideFetch() {
-  const products = await getProducts();
+  useEffect(() => {
+    fetchListOfProducts();
+  }, []);
+
+  if (isLoading) return <h1 className="text-xl font-bold">Loading...</h1>;
 
   return (
-    <div className="grid gap-1">
-      <h1>Server side data fetching</h1>
-      <h3>{products.total}</h3>
-      {products?.products.map((product) => (
+    <div className="grid gap-4 p-4">
+      <h1 className="text-2xl font-bold mb-4">Server side data fetching</h1>
+      {data.map((product) => (
         <div
           key={product.id}
           className="max-w-sm w-full bg-white rounded-2xl shadow-md p-5 hover:shadow-lg transition"
@@ -55,4 +62,3 @@ async function ServerSideFetch() {
     </div>
   );
 }
-export default ServerSideFetch;

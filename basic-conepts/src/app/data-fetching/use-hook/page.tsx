@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { use } from "react";
 
+//cache->reload, no-store, force-cache
 interface User {
   id: number;
   firstName: string;
